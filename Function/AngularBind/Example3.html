@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Welcome in the AngularJS</title>
+    <script src="../../node_modules/angular/angular.js"></script>
+</head>
+<body ng-app="app">
+    <div ng-controller="bindController">
+        A <input type="number" ng-model="val1" ng-change="GetResult()" />
+        B <input type="number" ng-model="val2" ng-change="GetResult()" /><br />
+        {{result}}
+    </div>
+</body>
+</html>
+<script>
+    var app = angular.module("app", []);
+    app.controller('bindController', ['$scope', function ($scope) {
+        function isEqual(a, b) {
+            if (a == b) {
+                return "Values are equal."
+            }
+            else if (a >= b) {
+                return "A is greater than B."
+            }
+            else if (a <= b) {
+                return "A is lesser than B."
+            }
+        }
+        $scope.GetResult = function () {
+            var result = angular.bind(this, isEqual);
+            $scope.result = result($scope.val1, $scope.val2);
+        }
+    }]);
+
+</script>

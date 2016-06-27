@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Welcome in the AngularJS</title>
+    <script src="../../node_modules/angular/angular.js"></script>
+    <script src="../../node_modules/angular-sanitize/angular-sanitize.js"></script>
+</head>
+<body ng-app="app">
+    <div ng-controller="bindController as vm">
+        Circle <input type="radio" name="shap" ng-model="vm.shap" value="Circle" ng-change="vm.GetResult()" />
+        Square <input type="radio" name="shap" ng-model="vm.shap" value="Square" ng-change="vm.GetResult()" /><br />
+        <div ng-bind-html="vm.result"></div>
+    </div>
+</body>
+</html>
+<script>
+    var app = angular.module("app", ['ngSanitize']);
+    app.controller('bindController', ['$scope', '$sce', function ($scope, $sce) {
+        var vm = this;
+        vm.GetResult = function () {
+            var result = angular.bind(this, function (shap) {
+                if (shap == "Circle") {
+                    return $sce.trustAsHtml("<div style='height:200px;width:200px;border:1px solid black; border-radius:100px'></div>");
+                }
+                else {
+                    return $sce.trustAsHtml("<div style='height:200px;width:200px;border:1px solid black'></div>");
+                }
+            });
+            vm.result = result(vm.shap);
+        }
+    }]);
+
+</script>
