@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Welcome in the AngularJS</title>
+    <script src="../../node_modules/angular/angular.js"></script>
+</head>
+<body ng-app="app">
+    <div ng-controller="bindController">
+        <input type="number" ng-model="num" ng-change="AddValue()" />
+        Addition={{Add}}
+    </div>
+</body>
+</html>
+<script>
+    var app = angular.module("app", []);
+    app.controller('bindController', ['$scope', function ($scope) {
+        $scope.num = 30;
+        $scope.AddValue = function () {
+            var addData = angular.bind(this, function (a, b) {
+                return a + b;
+            });
+            $scope.Add = addData(5, $scope.num);
+        }
+    }]);
+
+</script>
